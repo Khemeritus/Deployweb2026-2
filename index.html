@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Shareme 🌸 - Compra, vende y comparte videojuegos</title>
+  
+  <!-- FAVICON -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='20' fill='%23ff6b9d'/><path d='M16 26c0-4.4 3.6-8 8-8h16c4.4 0 8 3.6 8 8 0 8.5-4 18-10 18-2 0-3.2-2.5-4-4-.8 1.5-2 4-4 4-6 0-10-9.5-10-18z' fill='%23ffffff'/><path d='M23 26h6M26 23v6' stroke='%23ff6b9d' stroke-width='2.5' stroke-linecap='round'/><circle cx='37' cy='24' r='2' fill='%234ee2c0'/><circle cx='41' cy='28' r='2' fill='%23ff6b9d'/><path d='M32 30.5c-1.2-1.2-3.2-.2-2.2 1.3L32 34l2.2-2.2c1-1.5-1-2.5-2.2-1.3z' fill='%23ff6b9d'/></svg>">
+
+  <!-- ESTILOS CSS INLINE -->
+  
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo">Shareme 🌸</a>
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="openModal('login')">Ingresar</button>
+        <button class="btn btn-primary" onclick="openModal('register')">Crear Cuenta ✨</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge-indie">💖 Creadores Indies: Solo 5% de comisión</span>
+      <h1>Tu espacio lindo para <span>comprar & vender</span> videojuegos</h1>
+      <p>Un espacio seguro y libre de estafas para amantes de los videojuegos. Cambia tus discos físicos o descubre joyitas indie directo de sus creadores.</p>
+
+      <div class="hero-widget">
+        <div class="tab-container">
+          <button class="tab-btn active" onclick="switchTab('buy')">🛍️ Quiero Comprar</button>
+          <button class="tab-btn" onclick="switchTab('sell')">💸 Quiero Vender</button>
+        </div>
+
+        <div id="tab-buy" class="tab-content active">
+          <div class="search-box">
+            <input type="text" id="buy-search" placeholder="¿Qué videojuego buscas hoy? (ej. Zelda, Animal Crossing...)">
+            <button class="btn btn-primary" onclick="searchGames()">Buscar</button>
+          </div>
+        </div>
+
+        <div id="tab-sell" class="tab-content">
+          <div class="search-box">
+            <input type="text" id="sell-input" placeholder="Nombre del juego que quieres vender...">
+            <button class="btn btn-mint" onclick="calculateQuote()">Cotizar Pasta ✨</button>
+          </div>
+          <div id="quote-result" class="quote-result"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST GUARANTEES -->
+  <section class="trust-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Transacciones 100% protegidas 🎀</h2>
+        <p>Creamos un entorno seguro para que muevas tus juegos con total tranquilidad.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card-trust">
+          <div class="icon">🔒</div>
+          <h3>Pago Escrow Protegido</h3>
+          <p>Retenemos el pago de forma segura. El dinero se entrega al vendedor solo cuando el comprador confirma que todo funciona perfecto.</p>
+        </div>
+        <div class="card-trust">
+          <div class="icon">📦</div>
+          <h3>Envíos Asegurados</h3>
+          <p>Generamos guías de rastreo automáticas para juegos físicos. Si el paquete se extravía, nuestro seguro cubre el 100%.</p>
+        </div>
+        <div class="card-trust">
+          <div class="icon">✨</div>
+          <h3>Claves Verificadas</h3>
+          <p>Validamos manualmente las licencias digitales de los desarrolladores indies para prevenir claves duplicadas o inactivas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATALOG -->
+  <section>
+    <div class="container">
+      <div class="section-title">
+        <h2>Catálogo Reorganizado 🎮</h2>
+        <p>Descubre ofertas comunitarias o apoya a nuevos talentos independientes.</p>
+      </div>
+
+      <div class="catalog-filters">
+        <button class="filter-btn active" onclick="filterCatalog('all', this)">✨ Todos</button>
+        <button class="filter-btn" onclick="filterCatalog('indie', this)">🌱 Indies</button>
+        <button class="filter-btn" onclick="filterCatalog('switch', this)">Nintendo Switch</button>
+        <button class="filter-btn" onclick="filterCatalog('ps5', this)">PS5</button>
+        <button class="filter-btn" onclick="filterCatalog('xbox', this)">Xbox</button>
+        <button class="filter-btn" onclick="filterCatalog('pc', this)">PC</button>
+      </div>
+
+      <div class="grid-3" id="catalog-grid"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 <strong>Shareme 🌸</strong> — Tu rincón gamer más lindo y seguro.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h2 id="modal-title">¡Hola! Bienvenida 💖</h2>
+      <p class="modal-description">Crea tu cuenta para comprar, vender o subir tus proyectos.</p>
+
+      <form onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <input type="email" required placeholder="tuemail@ejemplo.com">
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" required placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label>¿Qué te gustaría hacer principalmente?</label>
+          <select>
+            <option>Comprar y vender mis juegos usados</option>
+            <option>Publicar mi juego indie (Desarrollador)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Comenzar Ahora ✨</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- BOTÓN FLOTANTE WHATSAPP -->
+  <a href="https://wa.me/5211234567890?text=¡Hola!%20Tengo%20una%20consulta%20sobre%20Shareme%20🌸" 
+     class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 32 32" class="whatsapp-icon">
+      <path fill="#ffffff" d="M16 2a13 13 0 0 0-11 20l-2 6 6-2a13 13 0 1 0 7-24zm0 24a11 11 0 0 1-5.6-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4A11 11 0 1 1 16 26zm6-8.2c-.3-.2-1.9-1-2.2-1.1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6 0a8 8 0 0 1-2.4-1.5 8.9 8.9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.4-.5a1.8 1.8 0 0 0 .2-.4.4.4 0 0 0 0-.4c0-.2-.7-1.7-.9-2.3s-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.2 2.8 6.4 6.4 0 0 0 1.3 3.4 14.5 14.5 0 0 0 5.6 4.9c.8.3 1.4.5 1.9.7a4.6 4.6 0 0 0 2.1.1 3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.1-.3-.2-.6-.3z"/>
+    </svg>
+  </a>
+
+  <!-- SCRIPT JS INLINE -->
+  <script>
+    const gamesData = [
+      { id: 1, title: "Cozy Island Cafe", platform: "pc", type: "Digital (Indie)", price: "$9.50 USD", imgBg: "linear-gradient(135deg, #ff9a9e, #fecfef)", category: "indie", emoji: "🧁" },
+      { id: 2, title: "Animal Crossing: New Horizons", platform: "switch", type: "Físico", price: "$38.00 USD", imgBg: "linear-gradient(135deg, #a8eddaf5, #fed6e3)", category: "switch", emoji: "🍃" },
+      { id: 3, title: "Astro Bot", platform: "ps5", type: "Físico", price: "$45.00 USD", imgBg: "linear-gradient(135deg, #c2e9fb, #a1c4fd)", category: "ps5", emoji: "🤖" },
+      { id: 4, title: "Stardew Valley", platform: "pc", type: "Digital (Indie)", price: "$12.00 USD", imgBg: "linear-gradient(135deg, #fddb92, #d1fdff)", category: "indie", emoji: "🌾" },
+      { id: 5, title: "Ori and the Will of the Wisps", platform: "xbox", type: "Físico", price: "$20.00 USD", imgBg: "linear-gradient(135deg, #e0c3fc, #8ec5fc)", category: "xbox", emoji: "🦊" },
+      { id: 6, title: "Hollow Knight: Silksong", platform: "pc", type: "Digital", price: "$18.00 USD", imgBg: "linear-gradient(135deg, #f5f7fa, #c3cfe2)", category: "pc", emoji: "🦋" }
+    ];
+
+    function renderCatalog(items) {
+      const grid = document.getElementById('catalog-grid');
+      grid.innerHTML = '';
+      items.forEach(game => {
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.innerHTML = `
+          <div class="game-img" style="background: ${game.imgBg}">
+            ${game.emoji}
+            <span class="badge-type">${game.type}</span>
+          </div>
+          <div class="game-info">
+            <div>
+              <div class="game-title">${game.title}</div>
+              <div class="game-meta">Plataforma: ${game.platform.toUpperCase()}</div>
+            </div>
+            <div class="game-footer">
+              <span class="price">${game.price}</span>
+              <button class="btn btn-secondary btn-small" onclick="openModal('buy')">Ver más</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => renderCatalog(gamesData));
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      if (tab === 'buy') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('tab-buy').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('tab-sell').classList.add('active');
+      }
+    }
+
+    function calculateQuote() {
+      const input = document.getElementById('sell-input').value.trim();
+      const resultDiv = document.getElementById('quote-result');
+      if (!input) { alert('Por favor ingresa el título de tu juego ✨'); return; }
+      const baseEstimate = Math.floor(Math.random() * (38 - 18 + 1)) + 18;
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `✨ Estimado de pago para <strong>"${input}"</strong>: ~$${baseEstimate}.00 USD.<br><small style="font-weight: 600; color: #0f4d3e;">¡Publicarlo es gratis!</small>`;
+    }
+
+    function filterCatalog(category, btnElement) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      btnElement.classList.add('active');
+      if (category === 'all') renderCatalog(gamesData);
+      else renderCatalog(gamesData.filter(game => game.category === category || game.platform === category));
+    }
+
+    function searchGames() {
+      const query = document.getElementById('buy-search').value.toLowerCase();
+      renderCatalog(gamesData.filter(game => game.title.toLowerCase().includes(query)));
+    }
+
+    function openModal(type) {
+      document.getElementById('modal-title').innerText = type === 'login' ? '¡Bienvenida de nuevo! 🌸' : 'Únete a Shareme 💖';
+      document.getElementById('modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      alert('✨ ¡Registro exitoso!');
+      closeModal();
+    }
+  </script>
+  <script src="js/script.js"></script>
+</body>
+</html>
